@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManager.Infastructure;
 
@@ -11,9 +12,11 @@ using TaskManager.Infastructure;
 namespace TaskManager.Infastructure.Migrations
 {
     [DbContext(typeof(TaskManagerDBContext))]
-    partial class TaskManagerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250921164730_initialhostcreate")]
+    partial class initialhostcreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,30 +94,6 @@ namespace TaskManager.Infastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.ToTable("TaskItemViewModel");
-                });
-
-            modelBuilder.Entity("TaskManager.Core.Entities.PasswordResetToken", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Expiry")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PasswordResetTokens");
                 });
 
             modelBuilder.Entity("TaskManager.Core.Entities.Status", b =>

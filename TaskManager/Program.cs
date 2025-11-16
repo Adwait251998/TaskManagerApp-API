@@ -66,7 +66,8 @@ builder.Services.AddHostedService<TaskNotificationService>();
 //builder.Services.AddScoped<TwilioService>(); //
 //builder.Services.AddScoped<SmsService>();
 //builder.Services.AddScoped<UserSession>();
-builder.Services.AddScoped<TaskManagerEmailService>();
+builder.Services.AddScoped<IEmailService, TaskManagerEmailService>();
+
 builder.Services.AddHttpContextAccessor();
 //builder.Services.AddScoped<UserSessionFilter>();
 builder.Services.AddDistributedMemoryCache();
@@ -80,7 +81,11 @@ builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Emai
 //    option.Cookie.IsEssential = true;  // Required for GDPR compliance
 //    option.IdleTimeout = TimeSpan.FromMinutes(30); // session lifetime
 //});
-builder.Services.AddCors(options =>{
+
+//builder.Services.AddCors(options =>{
+//    options.AddPolicy("AllowReactApp", policy => { policy.WithOrigins("https://task-manager-app-blush-six.vercel.app").AllowAnyHeader().AllowAnyMethod(); });
+//});
+builder.Services.AddCors(options => {
     options.AddPolicy("AllowReactApp", policy => { policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod(); });
 });
 var app = builder.Build();

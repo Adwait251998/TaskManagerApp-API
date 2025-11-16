@@ -22,5 +22,12 @@ namespace TaskManager.Application.Interfaces
 
         public Task<UserDTO> GetUserByEmailId(string email);
 
+        public Task<string> SaveForgetPasswordToken(string email);
+
+        public Task<bool> CheckTokenValidityForResetPassword(string token, string emailId);
+
+        public Task<bool> UpdatePassword(string emailId, string newPassword);
+        public Task MarkTokenAsExpired(string emailId, string token);
+
     }
 }

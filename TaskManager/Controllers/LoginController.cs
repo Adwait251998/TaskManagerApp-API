@@ -58,5 +58,15 @@ namespace TaskManager.Controllers
                 return Unauthorized("Invalid credentials");
             }
         }
+
+        [HttpPost("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword([FromBody] string emailId)
+        {
+            var isEmailSent = await _userServices.ForgotPassword(emailId);
+             var response = isEmailSent ? "To reset your password an email has been sent to registered Email Id!" : "Invalid EmailId";
+            return Ok(new {
+                response
+            });
+        }
     }
 }

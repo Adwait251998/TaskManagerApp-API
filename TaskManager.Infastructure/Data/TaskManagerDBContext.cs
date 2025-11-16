@@ -20,6 +20,11 @@ namespace TaskManager.Infastructure
         public DbSet<TaskItem> TaskItems { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<TaskDueTommorrowDto> TasksDueTomorrow { get; set; }
+
+        public DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
+
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

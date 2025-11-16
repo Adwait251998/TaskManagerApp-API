@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaskManager.Application.DTOs;
 using TaskManager.Application.Services;
+using TaskManager.Core.Entities;
 
 namespace TaskManager.Controllers
 {
@@ -37,6 +38,21 @@ namespace TaskManager.Controllers
         {
             var userId = await _userService.GetUserIdByEmail(email);
             return new JsonResult(userId);
+        }
+
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPassword([FromBody]  ResetPasswordDTO resetDTO)
+        {
+            var passwordUpdated = await _userService.ResetPassword(resetDTO);
+            if (passwordUpdated)
+            {
+                return new JsonResult("Password updated successfully!");
+            }
+            else
+            {
+                return new JsonResult("We couldn't update your password. Reset link may be invalid or expired.");
+            }
+               
         }
     }
 }

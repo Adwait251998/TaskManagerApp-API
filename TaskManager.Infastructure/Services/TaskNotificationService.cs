@@ -62,7 +62,7 @@ namespace TaskManager.Application.Services
                 }
 
                 // Wait 24 hours before next check (adjust as needed)
-                await Task.Delay(TimeSpan.FromMinutes(30), stoppingToken);
+                await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
             }
         }
     }

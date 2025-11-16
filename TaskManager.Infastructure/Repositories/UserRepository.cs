@@ -89,5 +89,60 @@ namespace TaskManager.Infastructure.Repositories
             }
             
         }
+
+        public async Task<string> SaveForgetPasswordToken(string email)
+        {
+            var token = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+            var resetToken = new PasswordResetToken
+            {
+                Email = email,
+                Token = token,
+                Expiry = DateTime.UtcNow.AddMinutes(15)
+            };
+
+            _taskManager.PasswordResetTokens.Add(resetToken);
+            await _taskManager.SaveChangesAsync();
+
+            return token;
+        
+        
+        }
+
+        public async Task<bool> CheckTokenValidityForResetPassword(string token, string emailId)
+        {
+
+            var record = await _taskManager.PasswordResetTokens.FirstOrDefaultAsync(x => x.Email == emailId && x.Token == token);
+            if(record != null)
+            {
+                var isValid = record.Expiry > DateTime.UtcNow;
+                return isValid;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public async Task<bool> UpdatePassword (string emailId, string newPassword)
+        {
+            var user = await _taskManager.Users.FirstOrDefaultAsync(x => x.Email == emailId);
+            if (user != null)
+            {
+                user.HashPassword = newPassword;
+                await  _taskManager.SaveChangesAsync();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public async Task MarkTokenAsExpired(string emailId, string token)
+        {
+            var tokenRecord = await _taskManager.PasswordResetTokens.FirstOrDefaultAsync(x => x.Email == emailId && x.Token == token);
+            tokenRecord.Expiry = DateTime.UtcNow.AddMinutes(-30);
+            await _taskManager.SaveChangesAsync();
+
+
+        }
     }
 }

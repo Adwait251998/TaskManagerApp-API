@@ -11,10 +11,11 @@ using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using MailKit.Security;
+using TaskManager.Application.Interfaces;
 
 namespace TaskManager.Infastructure.Services
 {
-    public class TaskManagerEmailService
+    public class TaskManagerEmailService:IEmailService
     {
         private readonly EmailSettings _emailSettings;
         private readonly ILogger<TaskManagerEmailService> _logger;
